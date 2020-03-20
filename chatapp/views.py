@@ -5,7 +5,8 @@ from chatapp.models import User
 
 
 def index(request):
-    num_users = User.objects.count()
+
+    num_users = User.objects.filter(is_superuser=False).count()
 
     context = {
         'num_users': num_users,
