@@ -1,4 +1,12 @@
 {% extends "base_generic.html" %}
+{% comment %}
+
+This is logged in page, this will display the list
+of users who have sent message to the logged in user.
+
+{% endcomment %}
+
+
 
 {% block content %}
 <h1>Home </h1>
@@ -7,5 +15,12 @@
 <h2>Dynamic content</h2>
 <ul>
     <li><strong>Users:</strong>{{ num_users }}</li>
+    <li><strong>Logged in user: </strong>{{ curr_name }}</li>
+    <li>
+        <strong> List: </strong>
+        {% for obj in result_list %}
+            <li>message: {{ obj.text }}</li>
+        {% endfor %}
+    </li>
 </ul>
 {% endblock %}

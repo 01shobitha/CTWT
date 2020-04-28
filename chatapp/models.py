@@ -6,50 +6,51 @@ from django.contrib.auth.models import User
 
 
 class Group(models.Model):
-    group_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
     class Meta:
-        ordering = ['group_name']
+        ordering = ['name']
 
-    def get_absolute_url(self):
-        return reverse("group_detail", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse("group_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return f'{self.group_name}'
+        return f'{self.name}'
 
 
-class GroupMembers(models.Model):
+class GroupMember(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user_name = models.ManyToManyField(User)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def get_absolute_url(self):
-        return reverse("group_members_detail", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse("group_members_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f'{self.pk}'
 
 
 class Message(models.Model):
-    from_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    to_id = models.ForeignKey(
+    from_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    to_user_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='to_user')
-    Content = models.CharField(max_length=500)
+    text = models.TextField(max_length=500)
+    is_read = models.BooleanField(default=False)
 
-    def get_absolute_url(self):
-        return reverse("message_detail", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse("message_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f'{self.pk}'
 
 
 class GroupMessage(models.Model):
-    from_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    to_id = models.ForeignKey(
+    from_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    to_user_id = models.ForeignKey(
         Group, on_delete=models.CASCADE, related_name='to_user')
-    Content = models.CharField(max_length=500)
+    text = models.TextField(max_length=500)
 
-    def get_absolute_url(self):
-        return reverse("group_message_detail", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse("group_message_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f'{self.pk}'
