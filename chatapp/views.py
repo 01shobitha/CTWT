@@ -4,6 +4,9 @@ import operator
 from itertools import chain
 from django.conf import settings
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+from .forms import SendMessage
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -19,10 +22,66 @@ def index(request):
     result_list = list(chain(x, y))
     result_list.sort(key=operator.attrgetter('id'), reverse=True)
 
+    list1=[]
+    for obj in result_list:
+        list1.append(obj.from_user_id.username)
+        list1.append(obj.to_user_id.username)
+
+    unique_list = []
+
+    def unique(list):
+        for name in list:
+            if name not in unique_list and name != current_user.username:
+                unique_list.append(name)
+    unique(list1)
+
     context = {
         'num_users': num_users,
         'curr_name': curr_name,
         'result_list': result_list,
+        'unique_list': unique_list,
     }
 
     return render(request, 'index.html', context=context)
+
+def conversation(request,obj):
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+    name =obj #sent by
+    to_user_obj = User.objects.get(username = name)
+    current_user = request.user
+    curr_name = current_user.username #recieved and sent by
+
+    x = Message.objects.filter(to_user_id=current_user).order_by('-id')
+    y = Message.objects.filter(from_user_id=current_user).order_by('-id')
+    result_list = list(chain(x, y))
+    result_list.sort(key=operator.attrgetter('id'), reverse=False)
+
+    new_list=[]
+    for item in result_list:
+        if item.from_user_id.username == name and item.to_user_id.username == curr_name:
+            new_list.append(item)
+        elif item.from_user_id.username == curr_name and item.to_user_id.username == name:
+            new_list.append(item)
+
+
+    #form code
+    #
+    #
+    form = SendMessage(request.POST)
+    if form.is_valid():
+        message = form.save(commit=False)
+        message.from_user_id = request.user
+        message.to_user_id = to_user_obj
+        message.save()
+        return HttpResponseRedirect(request.path_info)
+
+    context ={
+        'curr_name': curr_name,
+        'name':name,
+        'new_list':new_list,
+        'result_list':result_list,
+        'form': form,
+    }
+
+    return render(request,'conversation.html',context=context)

@@ -7,7 +7,6 @@ of users who have sent message to the logged in user.
 {% endcomment %}
 
 
-
 {% block content %}
 <h1>Home </h1>
 <p>Welcome to this appplication, chat now</p>
@@ -16,11 +15,13 @@ of users who have sent message to the logged in user.
 <ul>
     <li><strong>Users:</strong>{{ num_users }}</li>
     <li><strong>Logged in user: </strong>{{ curr_name }}</li>
-    <li>
-        <strong> List: </strong>
-        {% for obj in result_list %}
-            <li>message: {{ obj.text }}</li>
-        {% endfor %}
-    </li>
+</ul>
+<h1>List of recieved messages</h2>
+<ul>
+    {% for obj in unique_list %}
+    <a href="{% url 'conversation' obj %}">
+        <li>{{obj}}</li>
+    </a>
+     {% endfor%}
 </ul>
 {% endblock %}
