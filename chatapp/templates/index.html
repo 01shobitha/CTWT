@@ -24,4 +24,24 @@ of users who have sent message to the logged in user.
     </a>
      {% endfor%}
 </ul>
+
+<h2>List of groups</h1>
+{% comment %} {% for gname in group_name_list %}
+
+    <li>{{ gname }}</li>
+
+{% endfor %} {% endcomment %}
+
+{% for gname, gid in group_dict.items %}
+    <a href =" {% url 'groupDetail' gid %}">
+        <li> {{gname}}:  {{gid}} </li>
+    </a>
+{% endfor %}
+
+{% if user.is_staff %}
+    <a href=" {% url 'createGroup' %}">
+        <button>Create group</button>
+    </a>
+
+{% endif %}
 {% endblock %}

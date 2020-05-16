@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Group name:  {{ group_name }}</h1>
+
+<ul>
+    {% for msg in mesg_list %}
+       <li> {{ msg }}</li>
+    {% endfor %}
+</ul>
+
+<form method = "POST">{% csrf_token %}
+    {{ form.as_p }}
+    <button type ="submit">Send</button>
+</form>
+
+
+
+{% comment %} <form method = "POST">{% csrf_token %}
+
+    {% for field in form2.all %}
+     {{form2.as_p}}
+    {% endfor %}
+    <input type="submit" value="Save" />
+</form> {% endcomment %}
+
+{% comment %} <form method = "POST">{% csrf_token %}
+    <select>
+    {% for field in form2.all %}
+     <option value = "{{form2.as_p }}">{{form2.as_p}}</option>
+    {% endfor %}
+    </select>
+</form> {% endcomment %}
+
+{% if user.is_staff %}
+<form action="{% url 'user_added' gid %}" method = "POST">{% csrf_token %}
+
+    <select name="selected_user">
+
+        {% for name in user_list %}
+            <option value = "{{name}}">{{name}}</option>
+        {% endfor %}
+
+    </select>
+    <input type = "submit" name = 'adduser'></input>
+</form>
+{% comment %} <h1>{{ answer }} id is {{user_object.id}} gid id{{group_object.id}} </h1> {% endcomment %}
+{% comment %} <form method = "POST">{% csrf_token %}
+<input type="text" name="username" />
+<button type ="submit">Add user</button>
+</form> {% endcomment %}
+
+{% endif %}
+
+
+{% endblock  %}

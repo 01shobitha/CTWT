@@ -10,9 +10,9 @@ from .models import Group, GroupMember, Message, GroupMessage
 #     fields = ['first_name', 'last_name', ('date_of_birth')]
 
 
-# @admin.register(Group)
-# class GroupAdmin(admin.ModelAdmin):
-#     list_display = ('group_name', 'pk',)
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id',)
 
 
 # @admin.register(GroupMember)
@@ -28,7 +28,7 @@ from .models import Group, GroupMember, Message, GroupMessage
 admin.site.register(Message)
 admin.site.register(GroupMessage)
 admin.site.register(GroupMember)
-admin.site.register(Group)
+# admin.site.register(Group)
 
 
 # @admin.register(GroupMessage)
