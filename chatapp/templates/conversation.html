@@ -1,14 +1,15 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>
-hai {{curr_name}}
-</h1>
 
-<h3>conversation between {{curr_name}} and {{name}}</h3>
+<h3>Conversation between you and {{name}}</h3>
 <ul>
     {% for obj in new_list %}
-        <li>{{obj.id}}: {{ obj.text }}</li>
+        {% if obj.from_user_id.username == request.user.username %}
+            <li>{{ obj.text }}</li>
+        {% else %}
+            <li>{{obj.from_user_id.username}}: {{ obj.text }}</li>
+        {% endif %}
     {% endfor %}
 </ul>
 

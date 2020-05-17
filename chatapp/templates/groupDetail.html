@@ -5,10 +5,23 @@
 <h1>Group name:  {{ group_name }}</h1>
 
 <ul>
-    {% for msg in mesg_list %}
-       <li> {{ msg }}</li>
+    {% for name, text in new_dict1.items %}
+        {% if name == request.user %}
+            <li>{{text}}</li>
+        {% else %}
+            <li>{{name.first_name.0}} says... {{text}}</li>
+        {% endif %}
     {% endfor %}
 </ul>
+
+
+<ul>
+<h3>members in this group are: </h3>
+{% for member in group_members %}
+<li> {{member}}</li>
+{% endfor %}
+</ul>
+
 
 <form method = "POST">{% csrf_token %}
     {{ form.as_p }}
@@ -35,7 +48,8 @@
 
 {% if user.is_staff %}
 <form action="{% url 'user_added' gid %}" method = "POST">{% csrf_token %}
-
+<h4>   -------------- ---------- </h4>
+<h2> Add user</h2>
     <select name="selected_user">
 
         {% for name in user_list %}

@@ -9,14 +9,12 @@ of users who have sent message to the logged in user.
 
 {% block content %}
 <h1>Home </h1>
-<p>Welcome to this appplication, chat now</p>
+<p>Welcome to this appplication {{curr_name}}, chat now</p>
 
-<h2>Dynamic content</h2>
 <ul>
-    <li><strong>Users:</strong>{{ num_users }}</li>
-    <li><strong>Logged in user: </strong>{{ curr_name }}</li>
+    <li><strong>Toal users: </strong>{{ num_users }}</li>
 </ul>
-<h1>List of recieved messages</h2>
+<h2>List of recieved messages</h2>
 <ul>
     {% for obj in unique_list %}
     <a href="{% url 'conversation' obj %}">
@@ -26,11 +24,6 @@ of users who have sent message to the logged in user.
 </ul>
 
 <h2>List of groups</h1>
-{% comment %} {% for gname in group_name_list %}
-
-    <li>{{ gname }}</li>
-
-{% endfor %} {% endcomment %}
 
 {% for gname, gid in group_dict.items %}
     <a href =" {% url 'groupDetail' gid %}">
