@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base_generic.django-html" %}
 {% comment %}
 
 This is logged in page, this will display the list
@@ -8,8 +8,14 @@ of users who have sent message to the logged in user.
 
 
 {% block content %}
-<h1>Home </h1>
-<p>Welcome to this appplication {{curr_name}}, chat now</p>
+<h1 class="text-success">Home </h1>
+
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <strong>Welcome to this appplication</strong> {{curr_name}}, chat now
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
 <ul>
     <li><strong>Toal users: </strong>{{ num_users }}</li>
